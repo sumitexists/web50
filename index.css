@@ -53,6 +53,9 @@ input[type="text"] {
   padding: 10px;
   outline: none;
 }
+input[type="text"]::placeholder {
+    color:lab(96.14% 1.34 0.46 / 0.708);
+}
 
 .button {
   display: flex;
