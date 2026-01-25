@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Image Search</title>
+    <link rel="stylesheet" href="image.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Normal Search</a>
+      <a href="advanced.html">Adavnced Search</a>
+    </nav>
+    <div id="image">
+      <img src="image search logo.png" alt="Google, image not found" />
+    </div>
+    <form action="https://www.google.com/search">
+      <div id="container">
+        <div id="querry">
+          <input type="text" name="q" placeholder="Search here" />
+        </div>
+        <input type="hidden" name="udm" value="2"/>
+        <div class="button">
+          <input type="submit" value="Google Search" />
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
