@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Advanced Search</title>
+  <link rel="stylesheet" href="advanced.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <nav>
+    <a href="index.html">Normal Search</a>
+    <a href="image.html">Image Search</a>
+  </nav>
+  <div id="image">
+    <img src="logo.png" alt="Google, image not found" />
+  </div>
+  <h2>Advanced Search</h2>
+
+  <form action="https://www.google.com/search">
+    <div id="container">
+      <div id="cell-1">
+        <h3>Find pages with...</h3>
+      </div>
+      <div id="cell-3">
+        <h3>To do this in the search box.</h3>
+      </div>
+      <div id="cell-4">
+        <label for="all">all these words:</label>
+      </div>
+      <div id="cell-5">
+        <input type="text" name="as_q" id="all" />
+      </div>
+      <div id="cell-6">
+        <p>Type the important words: tri-colour rat terrier</p> 
+      </div>
+      <div id="cell-7">
+        <label for="exact">this exact word or phrase:</label>
+      </div>
+      <div id="cell-8">
+        <input type="text" name="as_epq" id="exact" />
+      </div>  
+      <div id="cell-9">
+        <p>Put exact words in quotes: "rat terrier"</p>
+      </div>
+      <div id="cell-10">
+        <label for="any">any of these words:</label>
+      </div>
+      <div id="cell-11">
+        <input type="text" name="as_oq" id="any" />
+      </div>  
+      <div id="cell-12">
+        <p>Type OR between all the words you want: miniature OR standard</p>
+      </div>  
+      <div id="cell-13">
+          <label for="none">none of these words:</label>
+      </div>
+      <div id="cell-14">
+          <input type="text" name="as_eq" id="none" />
+      </div>
+      <div id="cell-15">
+          <p>none of these words:
+Put a minus sign just before words that you don't want: -rodent, -"Jack Russell"</p>
+      </div>  
+      <div id="cell-16">
+         <label for="none">numbers ranging from:</label>
+      </div>  
+      <div id="cell-17">
+        <div class="div1">
+          <input type="text" name="as_nlo" id="from" />
+        </div>
+        <div class="div2">
+          <label for="none">to</label>
+        </div>
+        <div class="div3">
+          <input type="text" name="as_nhi" id="to" />
+        </div> 
+      </div>
+      <div id="cell-18">
+        <p>Put two full stops between the numbers and add a unit of measurement: 10..35 kg, £300..£500, 2010..2011</p>
+      </div>
+      <div id="cell-20">
+        <input type="submit" value="Advanced Search" />
+      </div>
+    </div>
+  </form>
+</body>
+
+</html>
