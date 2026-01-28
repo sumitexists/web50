@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia | {{title}}
+{% endblock %}
+
+{% block body %}
+{% if error == 0 %}
+    <h1>Page Not Found.</h1>
+{% elif error == 1 %}
+    <h1>Page already exists.</h1>
+{% elif error == 2 %}
+    <h1>{{title}} matches nothing.</h1>
+{% endif %}
+
+{% endblock %}

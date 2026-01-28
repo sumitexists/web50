@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+
+New Encyclopedia Entry
+
+{% endblock %}
+
+{% block body %}
+
+{% if error == 2 %}
+<div class="alert alert-danger" role="alert">
+  Please fill all the fields.
+</div>
+{% endif %}
+
+<form action="{% url 'encyclopedia:NewPage' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="title">Title :</label>
+        <input type="text" placeholder="Title" name="title" value="{{title}}">
+    </div>
+    <textarea name="blog">{{content}}</textarea>
+    <div>
+        <input type="submit" value="Submit">
+    </div>
+
+</form>
+
+{% endblock %}
