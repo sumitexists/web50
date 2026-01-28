@@ -13,7 +13,9 @@ New Encyclopedia Entry
   Please fill all the fields.
 </div>
 {% endif %}
-
+<div style="width:70vw; display:flex; justify-content:center;">
+    <h1>New Page Entry</h1>
+</div>
 <form action="{% url 'encyclopedia:NewPage' %}" method="POST">
     {% csrf_token %}
     <div>
