@@ -1,0 +1,23 @@
+input[type="submit"]{
+  background-color: #0096FF;
+  border-radius: 3px;
+  color: white;
+  border: none;
+  width:15vw;
+  grid-column: 2/3;
+}
+
+form{
+  display: grid;
+  grid-template-columns: 15vw auto;
+  row-gap: 2vh;
+  margin-right: 40px;
+}
+textarea{
+  height: 15vh;
+  width: 50vw;
+}
+
+input[type="text"]{
+  border-radius: 4px;
+}

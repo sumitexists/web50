@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {% block head %}
+<link rel="stylesheet" href="{%static 'auctions/index.css' %}" />
+{% endblock %} {% block body %}
+<h2>Watchlist</h2>
+{% for product in listing %}
+<div id="product" style="border: 2px solid black; margin-top: 10px; border-radius: 5px;">
+  <div class="item1">
+    <img src="{{product.image.url}}" alt="Image of {{product.heading}}">
+  </div>
+  <div class="item2">
+    <a  href="{%url 'auctions:listing' product.id %}">{{product.name}}</a>
+    {% if product.current_bid == 0 %}
+    <h4><strong>$</strong>{{product.base_bid}}</h4>
+    {% else %}
+    <h4><strong>$</strong>{{product.current_bid}}</h4>
+    {% endif %}
+    <p><b>Desciption</b> : {{product.description}}</p>
+    <p><b>Category</b> : {{product.get_category_display}}</p>
+    <form action="{% url 'auctions:watchlist' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="watchlist" value="{{product.id}}" />
+      <input type="submit" value="Delete from watchlist"/>
+    </form>
+  </div>
+</div>
+{% empty %}
+<h1>Nothing in watchlist.</h1>
+{% endfor %} {% endblock %}

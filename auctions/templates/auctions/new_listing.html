@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'auctions/newlisting.css' %}">
+{% endblock %}
+{% block body %}
+<div>
+  <form enctype="multipart/form-data" action="{% url 'auctions:new_listing' %}" method="POST">
+    {% csrf_token %}
+
+      <label for="heading">Heading : </label>
+      <input type="text" name="heading" id="heading" name="heading" placeholder="Heading of the listing" required />
+    
+      <label for="name">Name : </label>
+      <input type="text" name="name" id="name" placeholder="Descriptive name of listing" required />
+    
+      <label for="basel_bid">Base Price : </label>
+      <input type="text" name="base_bid" id="base_bid" placeholder="Base Price in Dollars($)" required />
+    
+      <label for="image">Choose Image : </label>
+      <input type="file" name="image" id="image" accept="image/*" required />
+    
+      <label for="category">Choose Category : </label>
+      <select name="category" id="category" required>
+        <option name="" value="" disabled selected>Choose category</option>
+        {% for db_list, list in listing%}
+        <option value="{{db_list}}">{{list}}</option>
+        {% endfor %}
+      </select>
+    
+      <label for="description">Description : </label>
+      <textarea name="description" id="description" placeholder="Add description here." required></textarea>
+
+      <input type="submit" value="Add Listing" />
+  </form>
+</div>
+
+{% endblock %}

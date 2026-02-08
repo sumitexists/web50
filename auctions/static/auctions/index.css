@@ -1,0 +1,24 @@
+#product{
+    display: grid;
+    grid-template-columns: 22vw auto;
+    padding: 15px 10px 15px 10px;
+}
+
+img{
+    width: 20vw;
+    border-radius: 3px;
+}
+
+input[type="submit"]{
+    background-color: #0096FF;
+    border-radius: 3px;
+    color: white;
+    border: none;
+}
+
+#product a{
+    color: black;
+}
+#product a:hover{
+    color:#0096FF;
+}

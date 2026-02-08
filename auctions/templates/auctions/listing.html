@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{%block head %}
+<link rel="stylesheet" href="{% static 'auctions/listing.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div id="container">
+    <div id="heading">
+        <h1>Listing : {{product.heading}} </h1>
+    </div>
+    <div id="image" >
+        <img src="{{product.image.url}}" alt="Image of {{product.heading}}" style="height: 40vh;">
+    </div>
+    <div id="name">
+        <h3>{{product.name}}</h3>
+    </div>
+    <div id="currentbid">
+        {% if product.current_bid == 0 %}
+        <h1><b>$</b>{{product.base_bid}}</h1>
+        {% else %}
+        <h1><b>$</b>{{product.current_bid}}</h1>
+        {% endif %}
+    </div>
+    <div id="number_of_bids">
+        <span>{{product.number_of_bid}} bid(s) so far.</span>
+
+    </div>
+    <div id="message">
+        {% if message %}
+            {{message}}
+        {% endif %}
+    </div>
+  
+    <form action="{% url 'auctions:listing' listing_id %}" method="post">
+        {% csrf_token %}
+        <div id="bid">
+            <input type="text" name = "bid" placeholder="Bid in Dollars($)">
+        </div>
+        <input type="hidden" name="action" value="bid">
+        <div class="button">
+            <input type="submit" value="Bid">
+        </div>
+    </form>   
+        <h3>Details</h3>
+        <p><b>Name</b> : {{product.listing_user.username}}</p>
+        <div id="description">
+            <p><b>Description</b> : {{product.description}}</p>
+        </div>
+        <form action="{% url 'auctions:listing' listing_id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="watchlist" value="{{product.id}}" />
+            <input type="hidden" name="action" value = "watchlist">
+            <input type="submit" value="{% if user in product.watchlist_user.all %}Added to watchlist{% else %}Add to watchlist{% endif %}" />
+        </form>
+    
+</div>
+
+
+
+{% endblock %}

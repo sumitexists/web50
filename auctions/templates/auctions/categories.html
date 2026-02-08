@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'auctions/categories.css' %}">
+{% endblock %}
+ {% block body %}
+<h2>Categories</h2>
+<form action="{% url 'auctions:categories' %}" method="post">
+  {% csrf_token %}
+  <label for="category">Filter</label>
+  <select name="category" id="category" required>
+    <option value="" selected disabled>Choose a category</option>
+    {% for db_category , category in listing.categories %}
+    <option value="{{db_category}}">{{category}}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Filter" />
+</form>
+
+{% for category, products in categorys.items %}
+<h2>{% if catg %} {{catg}} {% else %} {{category}} {% endif %}</h2>
+<div id="container">
+{% for product in products %}
+<div
+  id="product"
+  style="border: 2px solid black; margin-top: 10px; border-radius: 5px"
+>
+  <div class="item1">
+    <img src="{{product.image.url}}" alt="Image of {{product.heading}}" />
+  </div>
+  <div class="item2">
+    <a href="{%url 'auctions:listing' product.id %}"><h4>{{product.name}}</h4></a>
+    {% if product.current_bid == 0 %}
+    <h4><strong>$</strong>{{product.base_bid}}</h4>
+    {% else %}
+    <h4><strong>$</strong>{{product.current_bid}}</h4>
+    {% endif %}
+    <p><b>Desciption</b> : {{product.description}}</p>
+    <p><b>Category</b> : {{product.get_category_display}}</p>
+    <form action="{% url 'auctions:index' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="watchlist" value="{{product.id}}" />
+      <input
+        type="submit"
+        value="{% if user in product.watchlist_user.all %} Added to watchlist{% else %}Add to watchlist{% endif %}"
+      />
+    </form>
+  </div>
+</div>
+{% empty %}
+<h3>No listings in this category.</h3>
+{% endfor %} 
+</div>{% endfor %} {% endblock %}
