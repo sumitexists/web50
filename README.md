@@ -86,3 +86,21 @@ This project is part of **CS50’s Web Programming with Python and JavaScript**.
 1. Clone the repository
    ```bash
    git clone <repository-url>
+
+2. Navigate to project directory
+  ```bash
+  cd commerce
+```
+3. Apply migrations
+```bash
+  python manage.py migrate
+```
+4. Run the development server
+  ```bash
+python manage.py runserver
+```
+5.Open the app in your browser
+```cpp
+http://127.0.0.1:8000/
+
+
