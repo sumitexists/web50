@@ -43,7 +43,7 @@ class Listing(models.Model):
     status = models.CharField(max_length=5 , choices=status , default='True')
     number_of_bid = models.IntegerField(default=0)
     def __str__(self):
-        return f"{self.name} - base bid {self.base_bid}" 
+        return f"{self.name} - by {self.listing_user}" 
 
 
 class comments(models.Model):

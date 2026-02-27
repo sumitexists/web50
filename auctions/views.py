@@ -96,30 +96,39 @@ def listing(request, listing_id):
     else :
         user = None
     product = Listing.objects.get(pk = listing_id)
-    if product.listing_name.exists():
-        top_winner_list = product.listing_name.order_by("-current_bid").first()
-        top_winner = top_winner_list.current_bid
-    else:
-        top_winner = 0
+    
     
     if request.method == "POST":
         action  = request.POST.get("action")
         if action == "bid":
             if request.user.is_authenticated: 
-                current_bid = request.POST["bid"]
+                current_bid = request.POST.get("bid")
+                if product.listing_name.exists():
+                    top_winner_list = product.listing_name.order_by("-current_bid").first()
+                    top_winner = top_winner_list.current_bid
+                else:
+                    top_winner = 0
                 if current_bid == '':
                     return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id, 'message':   "Please enter an amount"})
                 elif int(current_bid) <= max(top_winner, product.base_bid):
-                    return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id,"message" :   "Price should be greator than the current bid"})
+                    print(current_bid)
+                    print(top_winner)
+                    if(int(current_bid) == top_winner):
+                        return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id})
+                    else :
+                        return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id,"message" :   "Price should be greator than the current bid"})
                 else:
                     if(product.listing_name.exists()):
                         bidder = winner.objects.get(listing = product)
                         bidder.current_bid = int(current_bid)
                         bidder.listing = product
                         product.number_of_bid += 1
-                        bidder.save()
                         product.save()
+                        bidder.save()
+                        
                     else:
+                        product.number_of_bid += 1
+                        product.save()
                         bidder = winner.objects.create(listing = product , winner = request.user , current_bid = int(current_bid))
                     return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id})
             return HttpResponseRedirect(reverse('auctions:login'))
