@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import Listing, User
+from .models import Listing, User, comments, winner
 
 
 def index(request): 
@@ -18,7 +18,7 @@ def index(request):
             return HttpResponseRedirect(reverse("auctions:index"))
         else:
             return HttpResponseRedirect(reverse("auctions:login"))
-    return render(request, "auctions/index.html", {"listing" : Listing.objects.all()})
+    return render(request, "auctions/index.html", {"listing" : Listing.objects.all(), "bidding" : winner.objects.all()})
 
 
 def login_view(request):
@@ -91,7 +91,17 @@ def create_listing(request):
 
 
 def listing(request, listing_id):
+    if request.user.is_authenticated:
+        user = request.user
+    else :
+        user = None
     product = Listing.objects.get(pk = listing_id)
+    if product.listing_name.exists():
+        top_winner_list = product.listing_name.order_by("-current_bid").first()
+        top_winner = top_winner_list.current_bid
+    else:
+        top_winner = 0
+    
     if request.method == "POST":
         action  = request.POST.get("action")
         if action == "bid":
@@ -99,15 +109,21 @@ def listing(request, listing_id):
                 current_bid = request.POST["bid"]
                 if current_bid == '':
                     return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id, 'message':   "Please enter an amount"})
-                elif int(current_bid) <= max(product.current_bid, product.base_bid):
+                elif int(current_bid) <= max(top_winner, product.base_bid):
                     return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id,"message" :   "Price should be greator than the current bid"})
                 else:
-                    product.current_bid = int(current_bid)
-                    product.number_of_bid += 1
-                    product.save()
+                    if(product.listing_name.exists()):
+                        bidder = winner.objects.get(listing = product)
+                        bidder.current_bid = int(current_bid)
+                        bidder.listing = product
+                        product.number_of_bid += 1
+                        bidder.save()
+                        product.save()
+                    else:
+                        bidder = winner.objects.create(listing = product , winner = request.user , current_bid = int(current_bid))
                     return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id})
             return HttpResponseRedirect(reverse('auctions:login'))
-        else :
+        elif action == "watchlist":
             if request.user.is_authenticated:
                 product = Listing.objects.get(pk=listing_id)
                 if product.watchlist_user.filter(pk=request.user.pk).exists():
@@ -117,8 +133,13 @@ def listing(request, listing_id):
                 return HttpResponseRedirect(reverse("auctions:listing" ,args=(listing_id,)))
             else:
                 return HttpResponseRedirect(reverse("auctions:login"))
-
-    return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id})
+        elif action == "comment":
+            comment = request.POST['comments'] 
+            user = request.user
+            save_comment = comments(commented_user = user , product = Listing.objects.get(pk = listing_id) , comment= comment)
+            save_comment.save()
+        
+    return render(request, "auctions/listing.html" , {"product" : product , "listing_id" : listing_id, "comments": comments.objects.filter(product = listing_id) , "user" : user})
 
 
 def watchlist(request):

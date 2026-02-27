@@ -9,11 +9,16 @@
     <img src="{{product.image.url}}" alt="Image of {{product.heading}}">
   </div>
   <div class="item2">
-    <a  href="{%url 'auctions:listing' product.id %}">{{product.name}}</a>
-    {% if product.current_bid == 0 %}
-    <h4><strong>$</strong>{{product.base_bid}}</h4>
+    <a  href="{%url 'auctions:listing' product.id %}"><h4>{{product.name}}</h4></a>
+    {% if product.status == "True" %}
+    {% if product.listing_name.exists %}
+    <h4><strong>${{product.listing_name.first.current_bid}}</strong>{{product.listing_name.current_bid}}</h4>
     {% else %}
-    <h4><strong>$</strong>{{product.current_bid}}</h4>
+    <h4><strong>$</strong>{{product.base_bid}}</h4>
+    {% endif %}
+    {% endif %}
+    {% if product.status == "False" %}
+    <h3 style="color: rgb(200, 71, 71);">Bidding is over and last bid was <strong>$</strong>{{product.listing_name.first.current_bid }}</h3>
     {% endif %}
     <p><b>Desciption</b> : {{product.description}}</p>
     <p><b>Category</b> : {{product.get_category_display}}</p>
