@@ -31,8 +31,8 @@ The goal was to create a smooth user experience while handling real-time data an
 ## 🛠️ Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript  
-- **Backend:** Python (Django) *(if used in your project)*  
-- **APIs:** External / Internal APIs for dynamic data  
+- **Backend:** Python (Django) 
+- **APIs:** Internal APIs for dynamic data  
 
 ---
 
